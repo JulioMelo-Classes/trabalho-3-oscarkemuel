@@ -1,36 +1,66 @@
 #include "SnakeGame.h"
-
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 #include <chrono> //por causa do sleep
 #include <thread> //por causa do sleep
+#include <string>
+#include <vector>
 
 using namespace std;
 
-SnakeGame::SnakeGame(){
-    choice = "";
-    frameCount = 0;
-    initialize_game();
-}
+vector<string> split(string str, char delimiter = ' '){
+    vector<string> ret;
 
-void SnakeGame::initialize_game(){
-    //carrega o nivel ou os níveis
-    ifstream levelFile("data/maze1.txt"); //só dá certo se o jogo for executado dentro da raíz do diretório (vc vai resolver esse problema pegando o arquivo da linha de comando)
-    int lineCount = 0;
-    string line;
-    if(levelFile.is_open()){
-        while(getline(levelFile, line)){ //pega cada linha do arquivo
-            if(lineCount > 0){ //ignora a primeira linha já que ela contem informações que não são uteis para esse exemplo
-                maze.push_back(line);
-            }
-            lineCount++;
+    int start = 0;
+
+    for(int i = 0; i < str.length(); ++i) {
+        if(str[i] == delimiter) {
+            ret.push_back(str.substr(start, i-start));
+            start = i+1;
         }
     }
-    state = RUNNING;
+
+    ret.push_back(str.substr(start, start - str.length()));
+
+    return ret;
 }
 
+SnakeGame::SnakeGame(string data){
+    choice = "";
+    frameCount = 0;
+    initialize_game(data);
+}
 
+void SnakeGame::initialize_game(string data){
+
+  //carrega o nivel ou os níveis
+  ifstream levelFile(data); //só dá certo se o jogo for executado dentro da raíz do diretório (vc vai resolver esse problema pegando o arquivo da linha de comando)
+  int lineCount = 0;
+  string line;
+  if(levelFile.is_open()){
+      while(getline(levelFile, line)){ //pega cada linha do arquivo
+
+          if (lineCount == 0){ // Definindo quantidade de maçãs
+            vector<string> values = split(line);
+
+            maze.setHeight(stoi(values[0]));
+            maze.setWidth(stoi(values[1]));
+
+            apple.setCurrentAmount(0);
+            apple.setTotalAmout(stoi(values[2]));
+          }
+
+          if(lineCount > 0){ //ignora a primeira linha já que ela contem informações que não são uteis para esse exemplo
+            maze.addLineInMaze(line);
+          }
+          lineCount++;
+      }
+  }
+
+
+  state = RUNNING;
+}
 
 void SnakeGame::process_actions(){
     //processa as entradas do jogador de acordo com o estado do jogo
@@ -82,36 +112,52 @@ void wait(int ms){
  * @brief função auxiliar para limpar o terminal
  */
 void clearScreen(){
-//some C++ voodoo here ;D
-#if defined _WIN32
-    system("cls");
-#elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
-    system("clear");
-#elif defined (__APPLE__)
-    system("clear");
-#endif
+  //some C++ voodoo here ;D
+  #if defined _WIN32
+      system("cls");
+  #elif defined (__LINUX__) || defined(__gnu_linux__) || defined(__linux__)
+      system("clear");
+  #elif defined (__APPLE__)
+      system("clear");
+  #endif
 }
 
 void SnakeGame::render(){
     clearScreen();
+
+    cout << maze.getSnakePosition().first << " " << maze.getSnakePosition().second << endl;
+
+    cout << "\nLives: " << (snake.get_lives()) << " | Score: " << snake.get_score() << "     | Food eaten: " << apple.getCurrentAmount() << " of " << apple.getTotalAmout() << "\n\n";
+    cout << "----------------------------------------------------\n";
+
     switch(state){
         case RUNNING:
             //desenha todas as linhas do labirinto
-            for(auto line : maze){
-                cout<<line<<endl;
-            }
+            maze.printMaze();
             break;
         case WAITING_USER:
             cout<<"Você quer continuar com o jogo? (s/n)"<<endl;
             break;
         case GAME_OVER:
-            cout<<"O jogo terminou!"<<endl;
+            game_over();
             break;
     }
     frameCount++;
 }
 
 void SnakeGame::game_over(){
+  clearScreen();
+
+  cout << "#######################################################################" << endl;
+	cout << "#######################################################################" << endl;
+	cout << "##        ##      ##          ##      ##       ##  #####  ##      #   #" << endl;
+	cout << "##  ########  ##  ##  ##  ##  ##  ######  ###  ##  ####  ###  ##### # #" << endl;
+	cout << "##  ########  ##  ##  ##  ##  ##    ####  ###  ###  ###  ###    ### # #" << endl;
+	cout << "##  ####  ##      ##  ######  ##  ######  ###  ####  #  ####  #####   #" << endl;
+	cout << "##  ####  ##  ##  ##  ######  ##  ######  ###  ####  #  ####  ##### # #" << endl;
+	cout << "##        ##  ##  ##  ######  ##      ##       #####   #####      # # #" << endl;
+	cout << "#######################################################################" << endl;
+	cout << "#######################################################################" << endl;
 }
 
 void SnakeGame::loop(){

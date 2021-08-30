@@ -1,9 +1,16 @@
 #ifndef SnakeGame_h
 #define SnakeGame_h
+
 #include <iostream>
 #include <vector>
 
+#include "snake.h"
+#include "level.h"
+#include "player.h"
+#include "apple.h"
+#include "maze.h"
 
+using namespace std;
 class SnakeGame{
     public:
         /**
@@ -17,16 +24,21 @@ class SnakeGame{
 
     private:
         //<! atributos adicione outros se quiser
-        std::vector<std::string> maze; //<! vector contendo o labirinto atual, pode ser interpretado como uma matriz
         int frameCount; //<! contador de frames, usado apenas como exemplo
         std::string choice; //<! usado na função process_actions para guardar a escolha do usuário
         GameStates state; //<! guarda o estado do jogo
 
+        Maze maze; //<! (FAZER VETOR DE LABIRINTOS)
+        Snake snake;
+        Level level;
+        Player player;
+        Apple apple;
+
     public:
         /**
-        * @brief construtor padrão, fique à vontade para adicionar parâmetros se desejar
+        * @brief construtor padrão.
         **/
-        SnakeGame();
+        SnakeGame(string data);
 
         /**
         * @brief chamado no main, este loop executa o jogo indefinidamente até que o usuário escolha terminar!
@@ -35,9 +47,9 @@ class SnakeGame{
 
     private:
         /**
-        * @brief realiza a inicialização geral do jogo, fique à vontade para adicionar parâmetros se achar que deve
+        * @brief realiza a inicialização geral do jogo.
         **/
-        void initialize_game();
+        void initialize_game(string data);
 
         /**
         * @brief atualiza o estado do jogo, basicamente movendo os objetos, sorteando novas posições de comida
