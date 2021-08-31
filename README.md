@@ -1,5 +1,5 @@
 Trabalho 3
-# Trabalho-2
+# Trabalho-3
 Repositório contendo as especificações do Trabalho 3 da disciplina de LP1
 
 ## Clonar, Compilar e Executar
@@ -20,7 +20,7 @@ make
 ```
 
 ### Execução
-Para executar comandos já criados, rode o seguinte comando:
+Para executar com um labirinto inicial, rode o seguinte comando:
 ```
 ./snaze maze1.txt
 ```
