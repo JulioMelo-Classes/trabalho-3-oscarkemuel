@@ -20,7 +20,7 @@ make
 ```
 
 ### Execução
-Para executar comandos já criados, rode o seguinte comando:
+Para executar com um labirinto inicial, rode o seguinte comando:
 ```
 ./snaze maze1.txt
 ```
