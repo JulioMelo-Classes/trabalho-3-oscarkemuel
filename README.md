@@ -1,5 +1,5 @@
 Trabalho 3
-# Trabalho-2
+# Trabalho-3
 Repositório contendo as especificações do Trabalho 3 da disciplina de LP1
 
 ## Clonar, Compilar e Executar
