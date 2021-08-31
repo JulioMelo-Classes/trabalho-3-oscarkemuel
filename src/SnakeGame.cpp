@@ -9,23 +9,6 @@
 
 using namespace std;
 
-vector<string> split(string str, char delimiter = ' '){
-    vector<string> ret;
-
-    int start = 0;
-
-    for(int i = 0; i < str.length(); ++i) {
-        if(str[i] == delimiter) {
-            ret.push_back(str.substr(start, i-start));
-            start = i+1;
-        }
-    }
-
-    ret.push_back(str.substr(start, start - str.length()));
-
-    return ret;
-}
-
 SnakeGame::SnakeGame(string data){
     choice = "";
     frameCount = 0;
@@ -33,31 +16,12 @@ SnakeGame::SnakeGame(string data){
 }
 
 void SnakeGame::initialize_game(string data){
+  // auto coordSnake = maze.getSnakePosition();
+  level.readMazes(data);
+  Maze currentLevel = level.getCurrentMaze();
 
-  //carrega o nivel ou os níveis
-  ifstream levelFile(data); //só dá certo se o jogo for executado dentro da raíz do diretório (vc vai resolver esse problema pegando o arquivo da linha de comando)
-  int lineCount = 0;
-  string line;
-  if(levelFile.is_open()){
-      while(getline(levelFile, line)){ //pega cada linha do arquivo
-
-          if (lineCount == 0){ // Definindo quantidade de maçãs
-            vector<string> values = split(line);
-
-            maze.setHeight(stoi(values[0]));
-            maze.setWidth(stoi(values[1]));
-
-            apple.setCurrentAmount(0);
-            apple.setTotalAmout(stoi(values[2]));
-          }
-
-          if(lineCount > 0){ //ignora a primeira linha já que ela contem informações que não são uteis para esse exemplo
-            maze.addLineInMaze(line);
-          }
-          lineCount++;
-      }
-  }
-
+  currentLevel.newApple();
+  currentLevel.printMaze();
 
   state = RUNNING;
 }
@@ -123,17 +87,20 @@ void clearScreen(){
 }
 
 void SnakeGame::render(){
-    clearScreen();
+    // clearScreen();
+    // auto coordToApple = maze.getCoordFreeToApple();
 
-    cout << maze.getSnakePosition().first << " " << maze.getSnakePosition().second << endl;
+    // cout << maze.getSnakePosition().first << " " << maze.getSnakePosition().second << endl;
+    // cout << coordToApple.first << " " << coordToApple.second << endl;
 
-    cout << "\nLives: " << (snake.get_lives()) << " | Score: " << snake.get_score() << "     | Food eaten: " << apple.getCurrentAmount() << " of " << apple.getTotalAmout() << "\n\n";
-    cout << "----------------------------------------------------\n";
+    // cout << "\nLives: " << (snake.get_lives()) << " | Score: " << snake.get_score() << "     | Food eaten: " << apple.getCurrentAmount() << " of " << apple.getTotalAmout() << "\n\n";
+    // cout << "----------------------------------------------------\n";
 
     switch(state){
         case RUNNING:
             //desenha todas as linhas do labirinto
-            maze.printMaze();
+            // maze.printMaze();
+            // currentLevel.printMaze();
             break;
         case WAITING_USER:
             cout<<"Você quer continuar com o jogo? (s/n)"<<endl;
@@ -153,7 +120,7 @@ void SnakeGame::game_over(){
 	cout << "##        ##      ##          ##      ##       ##  #####  ##      #   #" << endl;
 	cout << "##  ########  ##  ##  ##  ##  ##  ######  ###  ##  ####  ###  ##### # #" << endl;
 	cout << "##  ########  ##  ##  ##  ##  ##    ####  ###  ###  ###  ###    ### # #" << endl;
-	cout << "##  ####  ##      ##  ######  ##  ######  ###  ####  #  ####  #####   #" << endl;
+	cout << "##  ###   ##      ##  ######  ##  ######  ###  ####  #  ####  #####   #" << endl;
 	cout << "##  ####  ##  ##  ##  ######  ##  ######  ###  ####  #  ####  ##### # #" << endl;
 	cout << "##        ##  ##  ##  ######  ##      ##       #####   #####      # # #" << endl;
 	cout << "#######################################################################" << endl;

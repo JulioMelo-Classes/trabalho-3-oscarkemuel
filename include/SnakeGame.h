@@ -28,12 +28,9 @@ class SnakeGame{
         std::string choice; //<! usado na função process_actions para guardar a escolha do usuário
         GameStates state; //<! guarda o estado do jogo
 
-        Maze maze; //<! (FAZER VETOR DE LABIRINTOS)
         Snake snake;
         Level level;
         Player player;
-        Apple apple;
-
     public:
         /**
         * @brief construtor padrão.
