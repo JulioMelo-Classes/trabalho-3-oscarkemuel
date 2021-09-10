@@ -52,3 +52,78 @@ Para executar com um labirinto inicial, rode o seguinte comando:
 ```
 ./concordo < ../data/test_5.txt
 ``` -->
+
+## Avaliação CP1
+
+### Snake/Pacman
+O jogo deveria conter o modo snake/pacman. Em ambos os modos não é possível andar pra trás. No modo snake deve ser desenhado o corpo.
+
+**Avaliação**
+
+não implementado
+
+### Render.ui
+O jogo deveria desenhar a UI corretamente, mostrando ao menos as vidas, o nível e o score.
+
+**Avaliação**
+
+não implementado
+
+### Render.mapa
+O jogo deveria desenhar o mapa corretamente, com base no arquivo passado como argumento. Ok
+
+**Avaliação**
+
+ok
+
+### Render.snake
+O jogo deveria desenhar a snake corretamente.
+
+**Avaliação**
+
+não implementado
+
+### Logic.colisão e Logic.comida
+O jogo deve se comportar corretamente quando ocorre uma colisão com comida e com paredes.
+
+**Avaliação**
+
+não implementado
+
+### Transição de mapas
+O jogo deve ter transição de mapa uma vez que um mapa é terminado.
+
+**Avaliação**
+
+Não implementado.
+
+### Interação com o usuário
+O jogo deve perguntar ao usuário se quer continuar/reiniciar o nível/reiniciar o jogo a cada transição de mapa
+
+**Avaliação**
+
+Não implementado
+
+### Classe Level ou similar
+O software deve encapsular as funcionalidades do nível em uma classe.
+
+**Avaliação**
+
+Ok
+
+### Classe Player ou similar
+O software deve encapsular as decisões do jogo em uma classe.
+
+**Avaliação**
+
+não implementado
+
+### Classe Snake ou similar
+O software deve encapsular as funcionalidades relacionadas à snake em uma classe. 
+
+**Avaliação**
+
+vou considerar 50% uma vez que ainda não está sendo útil para o sistema
+
+## Comentários gerais CP1
+- Acho que do modo que está você só teria como entregar o CP1, ainda faltam muitas coisas básicas do jogo, sugiro que você tente implementar ao menos a movimentação da snake no mapa.
