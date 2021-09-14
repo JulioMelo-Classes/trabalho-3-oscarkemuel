@@ -60,5 +60,46 @@ void Maze::newApple(){
   auto coords = getCoordFreeToApple();
 
   this->aplle.setCoords(std::make_pair(coords.first, coords.second));
-  this->maze[coords.first][coords.second] = 'o';
+}
+
+void Maze::setFirstSnakePosition(Snake &snake){
+  std::pair<int, int> snaze = getSnakePosition();
+
+  // this->maze[snaze.first][snaze.second] = 'o';
+  snake.setInitialPosition(snaze.first, snaze.second);
+}
+
+int Maze::getHeight(){
+  return this->height;
+}
+
+int Maze::getWidth(){
+  return this->width;
+}
+
+void Maze::printSnake(vector<pair<int, int>> body, char head){
+  for (size_t i = 0; i < body.size(); i++){
+    auto element = body[i];
+
+    if(i == 0){
+      maze[element.first][element.second] = head;
+    }else {
+      maze[element.first][element.second] = '-';
+    }
+  }
+}
+
+void Maze::printApple(pair<int, int> coord){
+  maze[coord.first][coord.second] = 'o';
+}
+
+char Maze::getValue(int x, int y){
+  char charact = maze[x][y];
+  return charact;
+}
+
+void Maze::clearValue(int x, int y){
+  if(x && y){
+    maze[x][y] = ' ';
+  }
 }

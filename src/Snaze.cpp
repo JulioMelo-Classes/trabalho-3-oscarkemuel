@@ -14,8 +14,9 @@ using namespace std;
 int main(int argc, char *argv[]){
   string path = "../data/";
   path += argv[1];
+  string type = argv[2];
 
-  SnakeGame game(path);
+  SnakeGame game(path, type);
 
   game.loop(); //bloqueia aqui e só saí quando o jogo termina
 

@@ -12,6 +12,7 @@ add_executable( snaze
                 src/apple.cpp
                 src/level.cpp
                 src/maze.cpp
+                src/player.cpp
                 src/SnakeGame.cpp
                 src/Snaze.cpp )
 

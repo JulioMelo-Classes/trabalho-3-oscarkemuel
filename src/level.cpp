@@ -97,5 +97,5 @@ int Level::getNumberOfLevels(){
 }
 
 Maze Level::getCurrentMaze(){
-  return this->levels[this->currentLevel];
+  return this->levels[0];
 }

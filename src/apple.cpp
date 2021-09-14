@@ -21,3 +21,7 @@ void Apple::setCurrentAmount(int amount){
 void Apple::setCoords(pair<int, int> coord){
   this->coords = make_pair(coord.first, coord.second);
 }
+
+pair<int, int> Apple::getCoodsApple(){
+  return this->coords;
+}

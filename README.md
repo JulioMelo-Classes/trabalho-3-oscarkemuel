@@ -22,33 +22,23 @@ make
 ### Execução
 Para executar com um labirinto inicial, rode o seguinte comando:
 ```
-./snaze maze1.txt
+./snaze <nome do arquivo> <tipo do game (pacman || cobra)>
 ```
 
-### Atividades que não conclui a tempo no CP1
+### Atividades que não conclui a tempo
 * Implementação da classe player
-  * Gerar coordenada para comida
-* Implementação de níveis
-* Diferenciação dos Modos de jogo (sem e com rabo)
+  * find_solution
+* Uso de níveis
+* Modo de jogo cobra
+* Conta de score
+* Game-over
 
-<!-- ## Testando funcionalidades
-### Teste 1 - Testes de Criação de usuário, login e desconnect;
+## Testando funcionalidades
+### Teste 1 - A cobra sempre vai conseguir comer (com a lógica que fiz);
 ```
-./concordo < ../data/test_1.txt
+./snaze maze1.txt pacman
 ```
-### Teste 2 - Criação, remoção, descrição, listagem e convite de servidores;
+### Teste 2 - A cobra nem sempre vai comer toda comida que deveria (consequencia de não ter implementado o find_solution);
 ```
-./concordo < ../data/test_2.txt
+./snaze maze2.txt pacman
 ```
-### Teste 3 - Entrar, sair e listagem de participantes do servidor;
-```
-./concordo < ../data/test_3.txt
-```
-### Teste 4 - Criar, entrar e sair de canais;
-```
-./concordo < ../data/test_4.txt
-```
-### Teste 5 - Envio e listagem de mensagens;
-```
-./concordo < ../data/test_5.txt
-``` -->

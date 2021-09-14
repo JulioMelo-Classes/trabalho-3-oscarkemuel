@@ -19,7 +19,8 @@ class SnakeGame{
         enum GameStates{
             RUNNING, //<! quando o jogo está executando o estado é RUNNING
             GAME_OVER, //<! quando o jogo deve terminar o estado é GAME_OVER
-            WAITING_USER //<! quando o jogo deve esperar por uma entrada do usuário o estado é WAITING_USER
+            WAITING_USER, //<! quando o jogo deve esperar por uma entrada do usuário o estado é WAITING_USER
+            WIN
         };
 
     private:
@@ -31,11 +32,12 @@ class SnakeGame{
         Snake snake;
         Level level;
         Player player;
+        Maze maze;
     public:
         /**
         * @brief construtor padrão.
         **/
-        SnakeGame(string data);
+        SnakeGame(string data, string type);
 
         /**
         * @brief chamado no main, este loop executa o jogo indefinidamente até que o usuário escolha terminar!
@@ -46,7 +48,7 @@ class SnakeGame{
         /**
         * @brief realiza a inicialização geral do jogo.
         **/
-        void initialize_game(string data);
+        void initialize_game(string data, string type);
 
         /**
         * @brief atualiza o estado do jogo, basicamente movendo os objetos, sorteando novas posições de comida
@@ -67,6 +69,8 @@ class SnakeGame{
         * @brief é chamada quando o jogo termina a fim de destruir/resetar elementos do estado do jogo
         **/
         void game_over();
+
+        void win();
 };
 
 #endif //SnakeGame_h

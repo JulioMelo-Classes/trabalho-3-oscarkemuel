@@ -9,19 +9,21 @@
 
 using namespace std;
 
-SnakeGame::SnakeGame(string data){
+SnakeGame::SnakeGame(string data, string type){
     choice = "";
     frameCount = 0;
-    initialize_game(data);
+    initialize_game(data, type);
 }
 
-void SnakeGame::initialize_game(string data){
-  // auto coordSnake = maze.getSnakePosition();
-  level.readMazes(data);
-  Maze currentLevel = level.getCurrentMaze();
+void SnakeGame::initialize_game(string data, string type){
+  bool isPacman = type == "pacman";
+  snake.setIsPacman(isPacman);
 
-  currentLevel.newApple();
-  currentLevel.printMaze();
+  level.readMazes(data);
+  maze = level.getCurrentMaze();
+  maze.newApple();
+  maze.setFirstSnakePosition(snake);
+
 
   state = RUNNING;
 }
@@ -45,21 +47,26 @@ void SnakeGame::update(){
     //atualiza o estado do jogo de acordo com o resultado da chamada de "process_input"
     switch(state){
         case RUNNING:
-            if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
-                state = WAITING_USER;
+            maze.printSnake(snake.getBody(), snake.getHead());
+            maze.printApple(maze.aplle.getCoodsApple());
+            maze.clearValue(snake.getOldCoord().first, snake.getOldCoord().second);
+            player.next_move(snake, maze);
+            if(maze.aplle.getCurrentAmount() == maze.aplle.getTotalAmout()) state = WAITING_USER;
+            // if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
+                // state = WAITING_USER;
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
-                state = GAME_OVER;
-                game_over();
+                state = WIN;
+                win();
             }
             else{
                 //pode fazer alguma coisa antes de fazer isso aqui
+                maze.aplle.setCurrentAmount(0);
                 state = RUNNING;
             }
             break;
         default:
-            //nada pra fazer aqui
             break;
     }
 }
@@ -87,26 +94,22 @@ void clearScreen(){
 }
 
 void SnakeGame::render(){
-    // clearScreen();
-    // auto coordToApple = maze.getCoordFreeToApple();
-
-    // cout << maze.getSnakePosition().first << " " << maze.getSnakePosition().second << endl;
-    // cout << coordToApple.first << " " << coordToApple.second << endl;
-
-    // cout << "\nLives: " << (snake.get_lives()) << " | Score: " << snake.get_score() << "     | Food eaten: " << apple.getCurrentAmount() << " of " << apple.getTotalAmout() << "\n\n";
-    // cout << "----------------------------------------------------\n";
-
+    clearScreen();
     switch(state){
         case RUNNING:
-            //desenha todas as linhas do labirinto
-            // maze.printMaze();
-            // currentLevel.printMaze();
+            cout << "----------------------------------------------------\n";
+            cout << "Lives: " << (snake.get_lives()) << " | Score: " << snake.get_score() << "     | Food eaten: " << maze.aplle.getCurrentAmount() << " of " << maze.aplle.getTotalAmout() << "\n";
+            cout << "----------------------------------------------------\n";
+            maze.printMaze();
             break;
         case WAITING_USER:
-            cout<<"Você quer continuar com o jogo? (s/n)"<<endl;
+            cout<<"Você quer repetir o jogo? (s/n)"<<endl;
             break;
         case GAME_OVER:
             game_over();
+            break;
+        case WIN:
+            win();
             break;
     }
     frameCount++;
@@ -127,11 +130,32 @@ void SnakeGame::game_over(){
 	cout << "#######################################################################" << endl;
 }
 
+void SnakeGame::win(){
+  clearScreen();
+
+  cout << "██████████████████████████████████████████████████████████" << endl;
+  cout << "█░░░░░░██████████░░░░░░█░░░░░░░░░░█░░░░░░██████████░░░░░░█" << endl;
+  cout << "█░░▄▀░░██████████░░▄▀░░█░░▄▀▄▀▄▀░░█░░▄▀░░░░░░░░░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░██████████░░▄▀░░█░░░░▄▀░░░░█░░▄▀▄▀▄▀▄▀▄▀░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░██████████░░▄▀░░███░░▄▀░░███░░▄▀░░░░░░▄▀░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░██░░░░░░██░░▄▀░░███░░▄▀░░███░░▄▀░░██░░▄▀░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░██░░▄▀░░██░░▄▀░░███░░▄▀░░███░░▄▀░░██░░▄▀░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░██░░▄▀░░██░░▄▀░░███░░▄▀░░███░░▄▀░░██░░▄▀░░██░░▄▀░░█" << endl;
+  cout << "█░░▄▀░░░░░░▄▀░░░░░░▄▀░░███░░▄▀░░███░░▄▀░░██░░▄▀░░░░░░▄▀░░█" << endl;
+  cout << "█░░▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀░░█░░░░▄▀░░░░█░░▄▀░░██░░▄▀▄▀▄▀▄▀▄▀░░█" << endl;
+  cout << "█░░▄▀░░░░░░▄▀░░░░░░▄▀░░█░░▄▀▄▀▄▀░░█░░▄▀░░██░░░░░░░░░░▄▀░░█" << endl;
+  cout << "█░░░░░░██░░░░░░██░░░░░░█░░░░░░░░░░█░░░░░░██████████░░░░░░█" << endl;
+  cout << "██████████████████████████████████████████████████████████" << endl;
+  cout << "----------------------------------------------------\n";
+  cout << "Lives: " << (snake.get_lives()) << " | Score total: " << snake.get_score() << "     | Food eaten: " << maze.aplle.getCurrentAmount() << " of " << maze.aplle.getTotalAmout() << "\n";
+  cout << "----------------------------------------------------\n";
+}
+
 void SnakeGame::loop(){
-    while(state != GAME_OVER){
+    while(state != GAME_OVER && state != WIN){
         process_actions();
         update();
         render();
-        wait(1000);// espera 1 segundo entre cada frame
+        wait(100);// espera 1 segundo entre cada frame
     }
 }
