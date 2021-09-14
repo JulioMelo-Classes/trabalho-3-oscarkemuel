@@ -67,6 +67,7 @@ void Maze::setFirstSnakePosition(Snake &snake){
 
   // this->maze[snaze.first][snaze.second] = 'o';
   snake.setInitialPosition(snaze.first, snaze.second);
+  snake.setFirstPosition(snaze.first, snaze.second);
 }
 
 int Maze::getHeight(){

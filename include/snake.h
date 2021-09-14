@@ -12,6 +12,7 @@ class Snake{
     int lives; //<! INT com Quantidade de vidas da cobra
 		vector<pair<int,int>> body; //<! Vetor com as cordenadas do corpo da cobra
     char head; //<! Char com a cabeça da cobra (<,>,v, A)
+    pair<int, int> firstPosition;
 
     int old_x; //<! Int com o x anterior ocupado pela cobra
     int old_y; //<! Int com o y anterior ocupado pela cobra
@@ -100,6 +101,22 @@ class Snake{
 
     /*! Move o corpo da cobra (IMCOMPLETO).*/
     void moveBody();
+
+    /*! Seta a primeira posição da cobra.
+        @param x int com a coordenada x.
+        @param y int com a coordenada y.
+    */
+    void setFirstPosition(int x, int y);
+
+    /*! Retorna a primeira posição da cobra (ao ler o mapa).
+				@return um pair<int, int> com as coordenadas.
+		*/
+    pair<int, int> getFirstPosition();
+
+    /*! Seta a quantidade de vidas da cobra.
+        @param value int com o valor a ser setado.
+    */
+    void setLifes(int value);
 };
 
 #endif

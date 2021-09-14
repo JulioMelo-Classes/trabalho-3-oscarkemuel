@@ -80,3 +80,16 @@ void Snake::moveBody(){
   body[1].first = old_x;
   body[1].second = old_y;
 }
+
+void Snake::setFirstPosition(int x, int y){
+  this->firstPosition = make_pair(x, y);
+}
+
+pair<int, int> Snake::getFirstPosition(){
+  this->head = 'v';
+  return firstPosition;
+}
+
+void Snake::setLifes(int value){
+  this->lives = value;
+}

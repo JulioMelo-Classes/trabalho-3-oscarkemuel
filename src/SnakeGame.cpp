@@ -52,18 +52,29 @@ void SnakeGame::update(){
             maze.clearValue(snake.getOldCoord().first, snake.getOldCoord().second);
             player.next_move(snake, maze);
             if(maze.aplle.getCurrentAmount() == maze.aplle.getTotalAmout()) state = WAITING_USER;
-            if(snake.get_number_lives() == 0) state = GAME_OVER;
+            if(snake.get_number_lives() == 0)state = WAITING_USER;
+
             // if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
                 // state = WAITING_USER;
             break;
         case WAITING_USER: //se o jogo estava esperando pelo usuário então ele testa qual a escolha que foi feita
             if(choice == "n"){
-                state = WIN;
-                win();
+                if(maze.aplle.getCurrentAmount() != maze.aplle.getTotalAmout()){
+                  state = GAME_OVER;
+                }else {
+                  state = WIN;
+                }
             }
             else{
                 //pode fazer alguma coisa antes de fazer isso aqui
+                auto head = snake.getBody()[0];
+                auto posicaoInicial = snake.getFirstPosition();
+                maze.clearValue(head.first, head.second);
                 maze.aplle.setCurrentAmount(0);
+                snake.setHead('v');
+                snake.setHeadPosition(posicaoInicial.first, posicaoInicial.second);
+                snake.setLifes(5);
+
                 state = RUNNING;
             }
             break;
