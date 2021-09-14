@@ -14,26 +14,31 @@ bool Player::next_move(Snake &snake, Maze &maze){
   auto direita = maze.getValue(head.first, head.second+1);
   auto esquerda = maze.getValue(head.first, head.second-1);
 
+  bool olhaCima = stringHead == 'v';
+  bool olhaBaixo = stringHead == 'A';
+  bool olhaDireita = stringHead == '<';
+  bool olhaEsquerda = stringHead == '>';
+
   if(cima == 'o' || baixo == 'o' ||esquerda == 'o' || direita == 'o'){
     int currentAmount = maze.aplle.getCurrentAmount();
     snake.setOldCoord(head.first, head.second);
 
-    if(cima == 'o'){
+    if(cima == 'o' && (olhaCima || olhaDireita || olhaEsquerda)){
       snake.setHead('v');
       snake.setHeadPosition(head.first-1, head.second);
       maze.clearValue(head.first-1, head.second);
       maze.newApple();
-    } else if(baixo == 'o'){
+    } else if(baixo == 'o' && (olhaBaixo || olhaDireita || olhaEsquerda)){
       snake.setHead('A');
       snake.setHeadPosition(head.first+1, head.second);
       maze.clearValue(head.first+1, head.second);
       maze.newApple();
-    } else if(direita == 'o'){
+    } else if(direita == 'o' && (olhaDireita || olhaCima || olhaBaixo)){
       snake.setHead('<');
       snake.setHeadPosition(head.first, head.second+1);
       maze.clearValue(head.first, head.second+1);
       maze.newApple();
-    } else if(esquerda == 'o'){
+    } else if(esquerda == 'o' && (olhaEsquerda || olhaCima || olhaBaixo)){
       snake.setHead('>');
       snake.setHeadPosition(head.first, head.second-1);
       maze.clearValue(head.first, head.second-1);
@@ -50,7 +55,7 @@ bool Player::next_move(Snake &snake, Maze &maze){
     return true;
   }
 
-  if(stringHead == 'v'){
+  if(olhaCima){
     if(cima == ' '){
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first-1, head.second);
@@ -62,10 +67,12 @@ bool Player::next_move(Snake &snake, Maze &maze){
       snake.setHead('>');
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first, head.second-1);
+    }else{
+      snake.remove_life();
     }
   }
 
-  if(stringHead == '<'){
+  if(olhaDireita){
     if(direita == ' '){
     snake.setOldCoord(head.first, head.second);
     snake.setHeadPosition(head.first, head.second+1);
@@ -77,10 +84,12 @@ bool Player::next_move(Snake &snake, Maze &maze){
       snake.setHead('A');
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first+1, head.second);
+    }else{
+      snake.remove_life();
     }
   }
 
-  if(stringHead == 'A'){
+  if(olhaBaixo){
     if(baixo == ' '){
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first+1, head.second);
@@ -92,10 +101,12 @@ bool Player::next_move(Snake &snake, Maze &maze){
       snake.setHead('>');
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first, head.second-1);
+    }else{
+      snake.remove_life();
     }
   }
 
-  if(stringHead == '>'){
+  if(olhaEsquerda){
     if(esquerda == ' '){
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first, head.second-1);
@@ -107,6 +118,8 @@ bool Player::next_move(Snake &snake, Maze &maze){
       snake.setHead('A');
       snake.setOldCoord(head.first, head.second);
       snake.setHeadPosition(head.first+1, head.second);
+    }else{
+      snake.remove_life();
     }
   }
 

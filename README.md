@@ -31,7 +31,6 @@ Para executar com um labirinto inicial, rode o seguinte comando:
 * Uso de níveis
 * Modo de jogo cobra
 * Conta de score
-* Game-over
 
 ## Testando funcionalidades
 ### Teste 1 - A cobra sempre vai conseguir comer (com a lógica que fiz);
@@ -41,4 +40,9 @@ Para executar com um labirinto inicial, rode o seguinte comando:
 ### Teste 2 - A cobra nem sempre vai comer toda comida que deveria (consequencia de não ter implementado o find_solution);
 ```
 ./snaze maze2.txt pacman
+```
+
+### Teste 3 - A cobra sempre morre;
+```
+./snaze maze3.txt pacman
 ```

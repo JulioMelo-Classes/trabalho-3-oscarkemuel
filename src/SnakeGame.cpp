@@ -52,6 +52,7 @@ void SnakeGame::update(){
             maze.clearValue(snake.getOldCoord().first, snake.getOldCoord().second);
             player.next_move(snake, maze);
             if(maze.aplle.getCurrentAmount() == maze.aplle.getTotalAmout()) state = WAITING_USER;
+            if(snake.get_number_lives() == 0) state = GAME_OVER;
             // if(frameCount>0 && frameCount%10 == 0) //depois de 10 frames o jogo pergunta se o usuário quer continuar
                 // state = WAITING_USER;
             break;
@@ -128,6 +129,9 @@ void SnakeGame::game_over(){
 	cout << "##        ##  ##  ##  ######  ##      ##       #####   #####      # # #" << endl;
 	cout << "#######################################################################" << endl;
 	cout << "#######################################################################" << endl;
+  cout << "----------------------------------------------------\n";
+  cout << "Lives: " << (snake.get_lives()) << " | Score total: " << snake.get_score() << "     | Food eaten: " << maze.aplle.getCurrentAmount() << " of " << maze.aplle.getTotalAmout() << "\n";
+  cout << "----------------------------------------------------\n";
 }
 
 void SnakeGame::win(){
@@ -156,6 +160,6 @@ void SnakeGame::loop(){
         process_actions();
         update();
         render();
-        wait(100);// espera 1 segundo entre cada frame
+        wait(100);// espera 0.1 segundo entre cada frame
     }
 }
